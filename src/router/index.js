@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-
+import Login from '@/pages/login.vue';//登录页
+import Register from '@/pages/Register.vue';//注册页
 Vue.use(Router)
 
 export default new Router({
@@ -10,6 +11,16 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
+    },
+    {
+      path: '/login',
+      name: 'loginPage',
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'registerPage',
+      component: Register
     }
   ]
 })
