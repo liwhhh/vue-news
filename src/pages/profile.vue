@@ -16,7 +16,7 @@
       </div>
     </div>
     <sonCell label="我的关注" desc="关注的用户" @inptBtn="proToFollows"></sonCell>
-    <sonCell label="我的跟帖" desc="跟帖/回复" @inptBtn="sendPre"></sonCell>
+    <sonCell label="我的跟帖" desc="跟帖/回复" @inptBtn="proToComments"></sonCell>
     <sonCell label="我的收藏" desc="文章/视频" @inptBtn="sendPre"></sonCell>
     <sonCell label="设置" @inptBtn="proToEditPage"></sonCell>
     <sonCell label="退出" @inptBtn="outLogin"></sonCell>
@@ -51,6 +51,11 @@
       proToFollows(){//去我的关注页
         this.$router.push({
           name:'myfollowsPage'
+        })
+      },
+      proToComments(){//去评论 我的跟帖
+        this.$router.push({
+          name:'myCommentsPage'
         })
       }
     },
