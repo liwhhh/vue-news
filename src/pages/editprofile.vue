@@ -3,6 +3,8 @@
     <headerEdit label="编辑资料"></headerEdit>
     <div class="avatar">
       <img :src="profile.head_img" alt />
+      <!-- after-read 在选择完图片之后会被触发 -->
+      <van-uploader class="fileUploader" :after-read="afterRead" />
     </div>
     <sonCell label="昵称" :desc="profile.nickname" @inptBtn="NickisShow = true"></sonCell>
     <sonCell label="密码" :desc="profile.password" @inptBtn="PwdisShow = true"></sonCell>
@@ -74,6 +76,25 @@
           this.profile.gender = this.profile.gender == 0 ? "小姐姐" : "小哥哥";
         });
       },
+      //修改头像
+      afterRead(fileItem) {//当前拿过来的图片
+      // 此时可以自行将文件上传至服务器
+      const data=new FormData();
+      // 将刚拿到的图片放入二进制对象的file字段里面
+      data.append('file',fileItem.file);
+      // 请求上传图片的接口
+      this.$axios({
+        url:'/upload',
+        method:'post',
+        data:data,
+      }).then(res=>{
+        //上传成功后，调用编辑用户信息请求，成功后，把成功数据给head_img
+         this.editProfile({
+           head_img:res.data.data.url
+         })
+      })
+    },
+
       //点击确认时把输入框的值给 数据库名称,请求ajax把user_id和数据带给编辑用户,成功后刷新页面
       editProfile(newData) {
         //1.请求编辑用户信息,把当前登录的本地id,还要把数据给它,进行修改,
@@ -86,6 +107,7 @@
           this.loadPage();
         });
       },
+
       selectGender(item) {
         //点击性别后,带了数据过来
         console.log('下载'+item.name);
@@ -105,6 +127,7 @@
 
 <style lang="less" scoped>
   .avatar {
+    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
@@ -115,5 +138,16 @@
       height: 19.444vw;
       border-radius: 50%;
     }
+  }
+  .fileUploader{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;//内容居中
+    align-items: center;//侧轴居中
+    opacity: 0;
   }
 </style>
