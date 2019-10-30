@@ -54,7 +54,24 @@ export default {
         this.password=pwd;
       },
       setRegister(name){
-       console.log('name注册了'+name)
+       this.$axios({
+         url:"/register",
+         method:"post",
+         data:{
+           username:this.username,
+           password:this.password,
+           nickname:this.nickname
+         }
+       }).then(res=>{
+         if(res.data.message && res.data.statusCode){
+           this.$toast.fail(res.data.message);
+         }else{
+           this.$toast.success(res.data.message);
+           this.$router.push({
+             name:'loginPage'
+           })
+         }
+       })
       } 
    }
 }

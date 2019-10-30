@@ -15,9 +15,13 @@
    @input="setUserPwd"
     ></sonInput>
 
-    <div>
+    <div class="login">
       <sonBtn text="登 录" @login="setLogin"></sonBtn>
+      <div class="register">
+        还没有注册?<span @click="setRegister">立即注册</span>
+      </div>
     </div>
+   
   </div>
 </template>
 
@@ -42,8 +46,27 @@ export default {
     setUserPwd(pwd){
       this.password=pwd;
     },
-    setLogin(name){
-       console.log('登录是:'+name)
+    setLogin(){
+       this.$axios({
+         url:'/login',
+         method:'post',
+         data:{
+           username:this.username,
+           password:this.password
+         }
+       }).then(res=>{
+         console.log(res.data)
+        if(res.data.message && res.data.statusCode){
+          this.$toast.fail(res.data.message);
+        }else{
+          this.$toast.success(res.data.message);
+        }
+       })
+    },
+    setRegister(){
+      this.$router.push({
+        name:"registerPage"
+      })
     }
   }
   
@@ -67,5 +90,17 @@ export default {
     font-size: 35vw;
     align-items: center;
     color: #d81e06;
+  }
+  .register{
+    width: 100%;
+    border:1px solid lightblue;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px 0;
+    margin-top:10px ;
+    border-radius: 25px;
+    span{
+      color: lightblue;
+    }
   }
 </style>

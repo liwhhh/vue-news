@@ -17,8 +17,9 @@ export default {
    },
    methods:{
      showTips(){ //鼠标失去焦点时有误
-        this.$toast.fail(this.err_message);
-
+        if(!this.isOk){
+          this.$toast.fail(this.err_message);
+        }
        },
      datange($event){
        //如果没有触发这个目标

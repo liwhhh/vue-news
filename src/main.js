@@ -10,6 +10,12 @@ Vue.use(Vant);
 //引入组件样式文件
 import 'vant/lib/index.css';//组件里面使用
 
+//配置axios
+import axios from "axios";
+Vue.prototype.$axios = axios;
+//设置默认的api域名
+axios.defaults.baseURL = "http://111.230.181.206:3000";
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
