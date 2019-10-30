@@ -1,20 +1,23 @@
 <template>
   <div>
       <headerEdit label="我的跟帖" ></headerEdit>
-      <div class="item">
+      <div class="item" v-for="item in commentList" :key='item.id' >
         <div class="data">2019-10-10 10:25</div>
         <div class="parent">
-           <div class="name">回复: 火星彩票员</div>
+           <div class="name"  v-if="item.parent">
+             回复: {{item.parent.user.nickname}}
+             </div>
            <div class="parentContent">
-            阿信是张信哲吗?是不是它的弟弟?
+            {{item.parent.content}}
            </div>
         </div>
         <div class="mainContent">
-          不是
+          {{item.content}}
         </div>
         <div class="origin">
           <div class="postOrigin">
-         原文:阿信分享《说好不哭》幕后故事：执行是不是该哈根爱韩庚爱韩庚..
+         原文:{{item.post.title}}
+         <div>aa</div>
         </div>
         <span class="iconfont iconjiantou1">
         </span>
@@ -28,6 +31,21 @@ import headerEdit from '../components/headerEdit.vue';
 export default {
    components:{
      headerEdit:headerEdit
+   },
+   data(){
+     return{
+       commentList:[]
+     }
+   },
+   mounted(){
+     this.$axios({
+       url:"/user_comments",
+       method:"get"
+     }).then(res=>{
+       console.log(res.data);
+      //  这里我们拿到了评论数据
+       this.commentList=res.data.data
+     })
    }
 }
 </script>
