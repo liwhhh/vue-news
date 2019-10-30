@@ -1,10 +1,10 @@
 <template>
   <div>
-    <headerEdit label="我的关注"></headerEdit>
-    <div class="item">
-      <img src="/static/images/hu.png" alt="">
+    <headerEdit label="我的关注" @inpBtn="toProfile"></headerEdit>
+    <div class="item" v-for="item in myfollows" :key="item.id">
+      <img :src="item.head_img" alt="">
       <div class="itemMiddle">
-        <div class="name">火星新闻播报</div>
+        <div class="name">{{item.nickname}}</div>
         <div class="time">2019-10-10</div>
       </div>
       <div class="btnCancel">取消关注</div>
@@ -17,6 +17,35 @@ import headerEdit from '../components/headerEdit.vue';
 export default {
    components:{
      headerEdit:headerEdit
+   },
+   data(){
+     return{
+       myfollows:[]
+     }
+   },
+   methods:{
+    toProfile(){
+      this.$router.push({
+        name:'profilePage'
+      })
+    }
+   },
+   mounted(){
+     this.$axios({
+       url:'/user_follows/',
+       method:'get'
+     }).then(res=>{
+       console.log(res.data.data)
+       this.myfollows=res.data.data;
+       //不确定所有数据都有头像,
+       this.myfollows.forEach(element=>{
+         if(!element.head_img){//没有头像,就给一个默认地址,
+           element.head_img = "/static/imgs/avatar.jpg"
+         }else {
+            element.head_img = this.$axios.defaults.baseURL + element.head_img
+         }
+       })
+     })
    }
 }
 </script>
@@ -27,6 +56,7 @@ export default {
    justify-content: space-between;//主轴对齐
    align-items: center;//侧轴对象
    padding: 5.556vw;
+   border-bottom:1px solid #ccc; 
    .itemMiddle{
      flex: 1;
      padding-left: 10px;
