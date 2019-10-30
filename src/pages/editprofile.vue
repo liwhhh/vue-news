@@ -4,12 +4,21 @@
     <div class="avatar">
       <img :src="profile.head_img" alt />
     </div>
-    <sonCell label="昵称" :desc="profile.nickname" @inptBtn="setNickName"></sonCell>
+    <sonCell label="昵称" :desc="profile.nickname" @inptBtn="NickisShow = true"></sonCell>
     <sonCell label="密码" :desc="profile.password" @inptBtn="setPassWord"></sonCell>
     <sonCell label="性别" :desc="profile.gender" @inptBtn="setGender"></sonCell>
+    <!-- 使用插件 -->
+    <van-dialog
+      v-model="NickisShow"
+      title="修改昵称"
+      show-cancel-button
+      @confirm="editProfile({nickname:newNickName})"
+    >
+      <!-- confirm:点击确认把输入的数据带走 -->
+      <van-field v-model="newNickName" placeholder="请输入昵称" />
+    </van-dialog>
   </div>
 </template>
-
 <script>
   import headerEdit from "../components/headerEdit.vue";
   import sonCell from "../components/soncell.vue";
@@ -20,6 +29,8 @@
     },
     data() {
       return {
+        NickisShow: false, //设置显示与否
+        newNickName: "",
         profile: {}
       };
     },
@@ -35,22 +46,39 @@
         alert("加油");
       }
     },
+    methods: {
+      loadPage() {
+        this.$axios({
+          url: "/user/" + localStorage.getItem("user_id"),
+          method: "get"
+        }).then(res => {
+          //请求用户详情成功时
+          // 是一个对象有gender,head_img,id,用户名,密码,账号,post_star,post_comments
+          this.profile = res.data.data;
+          console.log(res.data.data);
+          if (!this.profile.head_img) {
+            this.profile.head_img = "/static/images/hu.png";
+          } else {
+            this.profile.head_img =
+              this.$axios.defaults.baseURL + this.profile.head_img;
+          }
+          this.profile.gender = this.profile.gender == 1 ? "小哥哥" : "小姐姐";
+        });
+      },
+      editProfile(newData) {
+        //1.请求编辑用户信息,把当前登录的本地id,还要把数据给它,进行修改,
+        //修改成功刷新一次用户详情信息
+        this.$axios({
+          url: "/user_update/" + localStorage.getItem("user_id"),
+          method: "post",
+          data: newData
+        }).then(res => {
+          this.loadPage();
+        });
+      }
+    },
     mounted() {
-      this.$axios({
-        url: "/user/" + localStorage.getItem("user_id"),
-        method: "get"
-      }).then(res => {
-        //请求用户详情成功时
-        // 是一个对象有gender,head_img,id,用户名,密码,账号,post_star,post_comments
-        this.profile = res.data.data;
-        console.log(res.data.data);
-        if (!this.profile.head_img) {
-          this.profile.head_img = "/static/images/hu.png";
-        } else {
-          this.profile.head_img = this.$axios.defaults.baseURL + this.profile.head_img;
-        }
-        this.profile.gender=this.profile.gender == 1? '小哥哥':'小姐姐';
-      });
+      this.loadPage();
     }
   };
 </script>
