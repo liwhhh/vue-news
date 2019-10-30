@@ -40,6 +40,23 @@ router.beforeEach((to, from, next) => {
   next();//其他的可以下一步
 })
 
+
+// axios 拦截器 请求拦截器
+// 在响应拦截器,拦截是响应结果,res
+// 在请求拦截器,拦截的是我们的请求属性配置
+// 我想知道你有没有带 headers
+axios.interceptors.request.use((config) => {
+  // 这里我要判断你有没有带 token
+  // 如果你没有带,而且我在 localStorage 里面找到,我就同意给你带上去
+  if (!config.headers.Authorization && localStorage.getItem('token')) {
+      config.headers.Authorization = localStorage.getItem('token')
+  }
+  // 有拦截就要有返回
+  return config;
+})
+
+
+
 // 2.axios拦截器,响应拦截器,统一处理错误
 axios.interceptors.response.use(res => {
   //解构服务器的成功与否数据
