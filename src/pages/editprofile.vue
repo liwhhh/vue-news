@@ -6,7 +6,7 @@
     </div>
     <sonCell label="昵称" :desc="profile.nickname" @inptBtn="NickisShow = true"></sonCell>
     <sonCell label="密码" :desc="profile.password" @inptBtn="PwdisShow = true"></sonCell>
-    <sonCell label="性别" :desc="profile.gender" @inptBtn="setGender"></sonCell>
+    <sonCell label="性别" :desc="profile.gender" @inptBtn="isShowGender=true"></sonCell>
     <!-- 使用插件 -->
     <van-dialog
       v-model="NickisShow"
@@ -27,6 +27,13 @@
       <!-- confirm:点击确认把输入的数据带走 -->
       <van-field v-model="newPwdword" placeholder="请输入密码" />
     </van-dialog>
+
+    <van-action-sheet
+      v-model="isShowGender"
+      :actions="genderList"
+      @select="selectGender"
+      cancel-text="取消"
+    />
   </div>
 </template>
 <script>
@@ -40,23 +47,13 @@
     data() {
       return {
         NickisShow: false, //设置显示与否
-        PwdisShow:false,
+        PwdisShow: false,
+        isShowGender: false,
         newNickName: "",
-        newPwdword:"",
+        newPwdword: "",
+        genderList: [{ name: "男" }, { name: "女" }],
         profile: {}
       };
-    },
-    methods: {
-      setNickName() {
-        //设置昵称
-        alert("加油");
-      },
-      setPassWord() {
-        alert("加油");
-      },
-      setGender() {
-        alert("加油");
-      }
     },
     methods: {
       loadPage() {
@@ -74,20 +71,30 @@
             this.profile.head_img =
               this.$axios.defaults.baseURL + this.profile.head_img;
           }
-          this.profile.gender = this.profile.gender == 1 ? "小哥哥" : "小姐姐";
+          this.profile.gender = this.profile.gender == 0 ? "小姐姐" : "小哥哥";
         });
       },
       //点击确认时把输入框的值给 数据库名称,请求ajax把user_id和数据带给编辑用户,成功后刷新页面
       editProfile(newData) {
         //1.请求编辑用户信息,把当前登录的本地id,还要把数据给它,进行修改,
         //修改成功刷新一次用户详情信息
-          this.$axios({
-            url: "/user_update/" + localStorage.getItem("user_id"),
-            method: "post",
-            data: newData
-          }).then(res => {
-            this.loadPage();
-          });
+        this.$axios({
+          url: "/user_update/" + localStorage.getItem("user_id"),
+          method: "post",
+          data: newData
+        }).then(res => {
+          this.loadPage();
+        });
+      },
+      selectGender(item) {
+        //点击性别后,带了数据过来
+        console.log('下载'+item.name);
+        //调用请求编辑用户信息，如果item.name下载的是男，就给它1，赋值给当前数据里的gender
+        this.editProfile({
+          gender: item.name == "男" ? 1 : 0
+        })
+        this.isShowGender = false;
+        //  this.$toast('取消')
       }
     },
     mounted() {
