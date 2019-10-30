@@ -19,6 +19,7 @@
     <sonCell label="我的跟帖" desc="跟帖/回复" @inptBtn="sendPre"></sonCell>
     <sonCell label="我的收藏" desc="文章/视频" @inptBtn="sendPre"></sonCell>
     <sonCell label="设置" @inptBtn="sendPre"></sonCell>
+    <sonCell label="退出" @inptBtn="outLogin"></sonCell>
   </div>
 </template>
 
@@ -36,6 +37,11 @@
     methods: {
       sendPre(name) {
         console.log(name + "aa");
+      },
+      outLogin(){//退出登录
+         localStorage.removeItem('token');
+         localStorage.removeItem('user_id');
+         this.$router.replace('/login');
       }
     },
     mounted() {
