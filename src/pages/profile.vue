@@ -18,7 +18,7 @@
     <sonCell label="我的关注" desc="关注的用户" @inptBtn="sendPre"></sonCell>
     <sonCell label="我的跟帖" desc="跟帖/回复" @inptBtn="sendPre"></sonCell>
     <sonCell label="我的收藏" desc="文章/视频" @inptBtn="sendPre"></sonCell>
-    <sonCell label="设置" @inptBtn="sendPre"></sonCell>
+    <sonCell label="设置" @inptBtn="proToEditPage"></sonCell>
     <sonCell label="退出" @inptBtn="outLogin"></sonCell>
   </div>
 </template>
@@ -42,6 +42,12 @@
          localStorage.removeItem('token');
          localStorage.removeItem('user_id');
          this.$router.replace('/login');
+      },
+      proToEditPage(){//点击设置,去到编辑页
+         this.$router.push({
+           name:'editprofilePage'
+         })
+
       }
     },
     mounted() {

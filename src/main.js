@@ -21,7 +21,13 @@ axios.defaults.baseURL = "http://111.230.181.206:3000";
 //1.路由导航守卫  去个人中心要登录了才能去
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
-  if (to.path == '/profile') {
+  //去的页面在个人中心都要通过有token才能访问
+  const pageNeedAuth = [
+    '/profile',
+    '/editprofile'
+  ]
+  // if (to.path == '/profile') {
+  if (pageNeedAuth.indexOf(to.path) >= 0 ) { //有在这里的
     if (token) {
       return next();//有token
     } else {
