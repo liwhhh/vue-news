@@ -5,7 +5,7 @@
       <img :src="profile.head_img" alt />
     </div>
     <sonCell label="昵称" :desc="profile.nickname" @inptBtn="NickisShow = true"></sonCell>
-    <sonCell label="密码" :desc="profile.password" @inptBtn="setPassWord"></sonCell>
+    <sonCell label="密码" :desc="profile.password" @inptBtn="PwdisShow = true"></sonCell>
     <sonCell label="性别" :desc="profile.gender" @inptBtn="setGender"></sonCell>
     <!-- 使用插件 -->
     <van-dialog
@@ -16,6 +16,16 @@
     >
       <!-- confirm:点击确认把输入的数据带走 -->
       <van-field v-model="newNickName" placeholder="请输入昵称" />
+    </van-dialog>
+
+    <van-dialog
+      v-model="PwdisShow"
+      title="修改密码"
+      show-cancel-button
+      @confirm="editProfile({password:newPwdword})"
+    >
+      <!-- confirm:点击确认把输入的数据带走 -->
+      <van-field v-model="newPwdword" placeholder="请输入密码" />
     </van-dialog>
   </div>
 </template>
@@ -30,7 +40,9 @@
     data() {
       return {
         NickisShow: false, //设置显示与否
+        PwdisShow:false,
         newNickName: "",
+        newPwdword:"",
         profile: {}
       };
     },
@@ -65,16 +77,17 @@
           this.profile.gender = this.profile.gender == 1 ? "小哥哥" : "小姐姐";
         });
       },
+      //点击确认时把输入框的值给 数据库名称,请求ajax把user_id和数据带给编辑用户,成功后刷新页面
       editProfile(newData) {
         //1.请求编辑用户信息,把当前登录的本地id,还要把数据给它,进行修改,
         //修改成功刷新一次用户详情信息
-        this.$axios({
-          url: "/user_update/" + localStorage.getItem("user_id"),
-          method: "post",
-          data: newData
-        }).then(res => {
-          this.loadPage();
-        });
+          this.$axios({
+            url: "/user_update/" + localStorage.getItem("user_id"),
+            method: "post",
+            data: newData
+          }).then(res => {
+            this.loadPage();
+          });
       }
     },
     mounted() {
