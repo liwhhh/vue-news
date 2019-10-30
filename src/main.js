@@ -23,7 +23,7 @@ axios.interceptors.response.use(res => {
   if (message && statusCode == 401) {
     Toast.fail(message);
   }
-  return (res);
+  return res;
 })
 
 

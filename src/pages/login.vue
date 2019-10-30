@@ -55,9 +55,16 @@ export default {
            password:this.password
          }
        }).then(res=>{
-        //  console.log(res.data)
-        if(!res.data.statusCode){
-          this.$toast.success(res.data.message);
+         //登录时,把token和用户id保存到本地
+         const {message,data}=res.data;//解构
+         localStorage.setItem('token',data.token);
+         localStorage.setItem('user_id',data.user.id);
+
+        if(message== '登录成功'){
+          // this.$toast.success(message);
+          this.$router.push({
+            name:"profilePage"
+          })
         }
        })
     },

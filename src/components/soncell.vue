@@ -13,7 +13,7 @@ export default {
    props:['label','desc'],
    methods:{
      sendpro(){
-       this.$emit('inptBtn',this.label);
+       this.$emit('inptBtn');
      }
    }
 }
