@@ -8,6 +8,7 @@ import Profile from '@/pages/profile.vue';//个人中心页
 import Editprofile from '@/pages/editprofile.vue';//编辑页
 import Myfollows from '@/pages/myfollows.vue';//我的关注页
 import Mycomments from '@/pages/mycomments.vue';//我的跟帖页
+import Mycollections from '@/pages/mycollections.vue';//我的收藏页
 Vue.use(Router)
 
 export default new Router({
@@ -46,6 +47,11 @@ export default new Router({
       path: '/mycomments',//我的关注页
       name: 'myCommentsPage',
       component: Mycomments
+    },
+    {
+      path: '/mycollections',//我的收藏页
+      name: 'mycollectionsPage',
+      component: Mycollections
     },
   ]
 })
