@@ -7,7 +7,8 @@
         <div class="name">{{item.nickname}}</div>
         <div class="time">2019-10-10</div>
       </div>
-      <div class="btnCancel">取消关注</div>
+      <!--取消关注哪一个用户,就将当前的用户id 传进去 -->
+      <div class="btnCancel" @click="cancelFollow(item.id)">取消关注</div>
     </div>
   </div>
 </template>
@@ -24,14 +25,8 @@ export default {
      }
    },
    methods:{
-    toProfile(){
-      this.$router.push({
-        name:'profilePage'
-      })
-    }
-   },
-   mounted(){
-     this.$axios({
+     loadPage(){
+       this.$axios({
        url:'/user_follows/',
        method:'get'
      }).then(res=>{
@@ -46,6 +41,25 @@ export default {
          }
        })
      })
+  
+     },
+    toProfile(){
+      this.$router.push({
+        name:'profilePage'
+      })
+    },
+    cancelFollow(id){
+      //收集数据 发送ajax 请求
+      this.$axios({
+        url:"/user_unfollow/"+id,
+        method:'get'
+      }).then(res=>{
+        this.loadPage();
+      })
+    }
+   },
+   mounted(){
+     this.loadPage()
    }
 }
 </script>
