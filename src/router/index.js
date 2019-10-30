@@ -6,6 +6,7 @@ import Login from '@/pages/login.vue';//登录页
 import Register from '@/pages/Register.vue';//注册页
 import Profile from '@/pages/profile.vue';//个人中心页
 import Editprofile from '@/pages/editprofile.vue';//编辑页
+import Myfollows from '@/pages/myfollows.vue';//我的关注页
 Vue.use(Router)
 
 export default new Router({
@@ -34,6 +35,11 @@ export default new Router({
       path: '/editprofile',//编辑
       name: 'editprofilePage',
       component: Editprofile
+    },
+    {
+      path: '/myfollows',//我的关注页
+      name: 'myfollowsPage',
+      component: Myfollows
     },
   ]
 })

@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" @click="send">
     <span class="iconfont iconjiantou2"></span>
     <div class="text">{{label}}</div>
   </div>
@@ -7,7 +7,12 @@
 
 <script>
 export default {
-  props:['label']
+  props:['label'],
+  methods:{
+    send(){
+      this.$emit('inpBtn')
+    }
+  }
 }
 </script>
 

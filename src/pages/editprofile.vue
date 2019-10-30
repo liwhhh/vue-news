@@ -1,13 +1,13 @@
 <template>
   <div>
-    <headerEdit label="编辑资料"></headerEdit>
+    <headerEdit label="编辑资料" @inpBtn="toProfile"></headerEdit>
     <div class="avatar">
       <img :src="profile.head_img" alt />
       <!-- after-read 在选择完图片之后会被触发 -->
       <van-uploader class="fileUploader" :after-read="afterRead" />
     </div>
     <sonCell label="昵称" :desc="profile.nickname" @inptBtn="NickisShow = true"></sonCell>
-    <sonCell label="密码" :desc="profile.password" @inptBtn="PwdisShow = true"></sonCell>
+    <sonCell label="密码" desc="*****" @inptBtn="PwdisShow = true"></sonCell>
     <sonCell label="性别" :desc="profile.gender" @inptBtn="isShowGender=true"></sonCell>
     <!-- 使用插件 -->
     <van-dialog
@@ -58,6 +58,11 @@
       };
     },
     methods: {
+      toProfile(){
+      this.$router.push({
+        name:'profilePage'
+      })
+      },
       loadPage() {
         this.$axios({
           url: "/user/" + localStorage.getItem("user_id"),
