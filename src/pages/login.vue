@@ -55,10 +55,8 @@ export default {
            password:this.password
          }
        }).then(res=>{
-         console.log(res.data)
-        if(res.data.message && res.data.statusCode){
-          this.$toast.fail(res.data.message);
-        }else{
+        //  console.log(res.data)
+        if(!res.data.statusCode){
           this.$toast.success(res.data.message);
         }
        })

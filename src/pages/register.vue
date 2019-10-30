@@ -63,9 +63,7 @@ export default {
            nickname:this.nickname
          }
        }).then(res=>{
-         if(res.data.message && res.data.statusCode){
-           this.$toast.fail(res.data.message);
-         }else{
+         if(!res.data.statusCode){
            this.$toast.success(res.data.message);
            this.$router.push({
              name:'loginPage'

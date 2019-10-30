@@ -16,6 +16,18 @@ Vue.prototype.$axios = axios;
 //设置默认的api域名
 axios.defaults.baseURL = "http://111.230.181.206:3000";
 
+import { Toast } from 'vant';
+axios.interceptors.response.use(res => {
+  //解构服务器的成功与否数据
+  const { message, statusCode } = res.data;
+  if (message && statusCode == 401) {
+    Toast.fail(message);
+  }
+  return (res);
+})
+
+
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
