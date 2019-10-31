@@ -6,17 +6,9 @@
     v-for="(tabItem,index) in tabCategoryList" :key="index"
      :title="tabItem.name">
 
-     <!-- <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad">
-      <van-cell
-        v-for="item in list"
-        :key="item"
-        :title="item"
-      />
-    </van-list> -->
+     <div v-for="(post,index) in tabItem.posts" :key="index">
+         {{post.title}}
+     </div>
 
      </van-tab>
   </van-tabs>
@@ -56,14 +48,35 @@ export default {
             data.forEach(element => {
           // 这是初始化 tab 列表,// 有什么东西是每个 tab 应该分开来记录的,
           // 而默认有没有,我们在初始化的时候// 加上去
-              element.posts=[];
+              element.posts=[]; //强行插一个空数组 文章列表
               element.currentPage=1; //id
               element.finished=false;
             });
             this.tabCategoryList=data;
-            console.log(this.tabCategoryList)
+            // console.log(this.tabCategoryList)
+            //获取完tab分类数据栏目列表后,马上使用默认的tab(头条)获取文章列表数据渲染页面
+            this.getTabPosts(this.activeTab);
           })
      },
+     //封装获取分类文章数据方法
+     getTabPosts(tabIndex){
+     // 传入了 tab 的 index就可以通过 data 里面的 tabList 数据
+       // 获取到对应的 分类 id 
+       const categoryId=this.tabCategoryList[tabIndex].id;
+      //  console.log(this.tabCategoryList[tabIndex].currentPage);
+       this.$axios({
+         url:"/post", //'..?category='+id
+         method:"get",
+         params:{
+           category:categoryId,//传的id
+         }
+       }).then(res=>{ //通过栏目id
+          const {data}=res.data;
+          console.log(data);
+          //获取文章列表数据后,一个传入 tabIndex对应的tab对象当中
+          this.tabCategoryList[tabIndex].posts=data;
+       })
+     }
      
    }
 }
