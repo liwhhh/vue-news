@@ -5,9 +5,20 @@
     <van-tab
     v-for="(tabItem,index) in tabCategoryList" :key="index"
      :title="tabItem.name">
-     {{tabItem.name}}
+
+     <!-- <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad">
+      <van-cell
+        v-for="item in list"
+        :key="item"
+        :title="item"
+      />
+    </van-list> -->
+
      </van-tab>
-    
   </van-tabs>
   </div>
 </template>
@@ -26,28 +37,33 @@ export default {
         // 获取 token 就可以判断有没有登陆,设置一个默认激活的当前分类
         activeTab:localStorage.getItem('token') ? 1:0,
         tabCategoryList:[],
+        // pageSize: 6,
+       
     }
   },
   mounted(){
-    // ajax获取栏目列表数据
-    this.$axios({
-      url:"/category",
-      method:"get"
-    }).then(res=>{
-      const {data}=res.data;//好多项
-      data.forEach(element => {
-    // 这是初始化 tab 列表,// 有什么东西是每个 tab 应该分开来记录的,
-    // 而默认有没有,我们在初始化的时候// 加上去
-        element.posts=[];
-        element.currentPage=1;
-        element.finished=false;
-      });
-      this.tabCategoryList=data;
-      console.log(this.tabCategoryList)
-    })
+     this.initTabList();
 
   },
    methods:{
+     initTabList(){
+        // ajax获取栏目列表数据
+          this.$axios({
+            url:"/category",
+            method:"get"
+          }).then(res=>{
+            const {data}=res.data;//好多项
+            data.forEach(element => {
+          // 这是初始化 tab 列表,// 有什么东西是每个 tab 应该分开来记录的,
+          // 而默认有没有,我们在初始化的时候// 加上去
+              element.posts=[];
+              element.currentPage=1; //id
+              element.finished=false;
+            });
+            this.tabCategoryList=data;
+            console.log(this.tabCategoryList)
+          })
+     },
      
    }
 }
