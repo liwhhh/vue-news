@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="profile">
+    <div class="profile" @click="proToEdit">
       <!-- <img class="avatar" :src="/static/images/hu.png" alt /> -->
       <img class="avatar" :src="profile.head_img" alt />
       <div class="pro_meddle">
@@ -35,6 +35,11 @@
       }
     },
     methods: {
+      proToEdit(){
+        this.$router.push({
+          name:"editprofilePage"
+        })
+      },
       sendPre(name) {
         console.log(name + "aa");
       },

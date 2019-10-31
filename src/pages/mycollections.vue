@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderEdit label="我的收藏"></HeaderEdit>
+    <HeaderEdit label="我的收藏" @inpBtn="collecToProfile"></HeaderEdit>
     <post :item="post" v-for="(post,index) in collectionList" :key="index"></post>
   </div>
 </template>
@@ -19,11 +19,15 @@ export default {
      }
    },
    methods:{
-     
+      collecToProfile(){
+        this.$router.push({
+          name:'profilePage'
+        })
+      }
    },
    mounted(){
      this.$axios({
-       url:"/user_star",
+       url:"/user_star/",
        method:"get"
      }).then(res=>{
        console.log(res.data.data);
