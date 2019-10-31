@@ -20,7 +20,11 @@ export default {
   },
   data(){
     return{
-        activeTab: 1,
+      // 控制当前显示选项
+      // 如果有登陆的话,第一个分类是关注,头条的 index == 1
+       // 如果没登录第一个分类就是头条,它的 index == 0
+        // 获取 token 就可以判断有没有登陆,设置一个默认激活的当前分类
+        activeTab:localStorage.getItem('token') ? 1:0,
         tabCategoryList:[],
     }
   },
