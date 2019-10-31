@@ -35,7 +35,12 @@ export default {
   },
   mounted(){
      this.initTabList();
-
+  },
+  watch:{
+    // 监听 当前激活分类tabIndex的变化,重新拉文章数据
+    activeTab(newActiveTab) {
+      this.getTabPosts(newActiveTab)
+    }
   },
    methods:{
      initTabList(){
