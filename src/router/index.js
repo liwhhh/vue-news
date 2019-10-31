@@ -44,8 +44,8 @@ export default new Router({
       component: Myfollows
     },
     {
-      path: '/mycomments',//我的关注页
-      name: 'myCommentsPage',
+      path: '/mycomments',//我的跟帖页
+      name: 'mycommentsPage',
       component: Mycomments
     },
     {

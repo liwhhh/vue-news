@@ -1,10 +1,10 @@
 <template>
   <div>
-      <headerEdit label="我的跟帖" ></headerEdit>
+      <headerEdit label="我的跟帖" @inpBtn="backTopro"></headerEdit>
       <div class="item" v-for="item in commentList" :key='item.id' >
         <div class="data">2019-10-10 10:25</div>
-        <div class="parent">
-           <div class="name"  v-if="item.parent">
+        <div class="parent"   v-if="item.parent">
+           <div class="name">
              回复: {{item.parent.user.nickname}}
              </div>
            <div class="parentContent">
@@ -35,6 +35,13 @@ export default {
    data(){
      return{
        commentList:[]
+     }
+   },
+   methods:{
+     backTopro(){
+       this.$router.push({
+         name:'profilePage'
+       })
      }
    },
    mounted(){

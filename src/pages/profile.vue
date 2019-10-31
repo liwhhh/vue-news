@@ -55,7 +55,7 @@
       },
       proToComments(){//去评论 我的跟帖
         this.$router.push({
-          name:'myCommentsPage'
+          name:'mycommentsPage'
         })
       },
       proToCollections(){ //去的收藏页 文章/视频

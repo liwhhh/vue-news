@@ -14,8 +14,8 @@ import 'vant/lib/index.css';//组件里面使用
 //配置axios
 import axios from "axios";
 Vue.prototype.$axios = axios;
-//设置默认的api域名
-axios.defaults.baseURL = "http://111.230.181.206:3000";
+//设置默认的api域名 111.230.181.206
+axios.defaults.baseURL = "http://127.0.0.1:3000";
 
 
 //1.路由导航守卫  去个人中心要登录了才能去
