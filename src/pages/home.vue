@@ -1,7 +1,7 @@
 <template>
   <div>
     <homeHeader label="新闻搜索"></homeHeader>
-   <van-tabs v-model="activeTab" sticky >
+   <van-tabs v-model="activeTab" sticky swipeable>
     <van-tab
     v-for="(tabItem,index) in tabCategoryList" :key="index"
      :title="tabItem.name">
