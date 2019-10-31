@@ -39,7 +39,13 @@ export default {
   watch:{
     // 监听 当前激活分类tabIndex的变化,重新拉文章数据
     activeTab(newActiveTab) {
+      //每次切换tab都会触发ajax请求
+      if(this.tabCategoryList[newActiveTab].posts.length ==0){
+      // 如果这个被选中的tabIndex对应哪个tab对象里面的posts长度为 0 
+       // 证明没有数据,于是发送请求,不然就不去管
       this.getTabPosts(newActiveTab)
+
+      }
     }
   },
    methods:{
