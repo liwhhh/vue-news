@@ -27,7 +27,7 @@ export default {
    },
    mounted(){
      this.$axios({
-       url:"/user_star/",
+       url:"/user_star",
        method:"get"
      }).then(res=>{
        console.log(res.data.data);

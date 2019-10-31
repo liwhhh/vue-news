@@ -69,7 +69,6 @@ export default {
     }
   },
    methods:{
-     //加载事件
      loadMorePost(){
       console.log('触发了加载函数');
       this.tabCategoryList[this.activeTab].currentPage+=1;

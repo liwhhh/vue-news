@@ -7,7 +7,7 @@
          <span class="iconfont iconsearch"></span>
          <span class="content">{{label}}</span>
       </div>
-      <div class="right">
+      <div class="right"  @click="IndexToProfile">
         <span class="iconfont iconwode"></span>
      </div>
     </div>
@@ -16,7 +16,14 @@
 
 <script>
 export default {
-   props:['label']
+   props:['label'],
+   methods:{
+     IndexToProfile(){
+       this.$router.push({
+         name:"profilePage"
+       })
+     }
+   }
 }
 </script>
 
