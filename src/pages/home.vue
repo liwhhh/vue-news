@@ -10,9 +10,21 @@
          {{post.title}}
      </div> -->
      <!-- ↑封装成组件 -->
-     <post :item="post" v-for="(post,index) in tabItem.posts" :key="index" >
+     
+ <!-- tabItem.finished 一个布尔值, 标注当前列表是否已经到底,如果数据库里面的数据都被获取完了,这个数值就应该是 true, 这个列表再也不会触发到底部加载的函数, 每个分类单独记录 
+ load 是一个到底部就会触发的时间,可以绑定一个自定义函数,在里面写读取新数据的逻辑 
+  immediate-check 这个是设置组件是否在加载完毕后马上执行第一次数据获取,
+   由于我们自己在 initTabList 函数里面已经手动获取了数据,就不需要这个组件发送一次请求,我们设置为 false-->
+     <van-list
+      v-model="loading"
+      :finished="tabItem.finished"
+      finished-text="没有更多了"
+      @load="loadMorePost"
+      :immediate-check="false">
+   <!-- immediate-check="false"是否在初始值时立即滚动位置 -->
+      <post :item="post" v-for="(post,index) in tabItem.posts" :key="index" />
 
-     </post>
+    </van-list>
 
      </van-tab>
   </van-tabs>
@@ -35,7 +47,9 @@ export default {
         // 获取 token 就可以判断有没有登陆,设置一个默认激活的当前分类
         activeTab:localStorage.getItem('token') ? 1:0,
         tabCategoryList:[],
-        // pageSize: 6,
+        pageSize: 6,
+        loading: false,
+      //finished: false,//若数据已全部加载完毕，则直接将finished设置成true即可。
        
     }
   },
@@ -55,6 +69,13 @@ export default {
     }
   },
    methods:{
+     //加载事件
+     loadMorePost(){
+      console.log('触发了加载函数');
+      this.tabCategoryList[this.activeTab].currentPage+=1;
+      //发送ajax请求获取文章列表数据
+      this.getTabPosts(this.activeTab);//马上获取这个函数方法 一次获取六条数据
+     },
      initTabList(){
         // ajax获取栏目列表数据
           this.$axios({
@@ -86,12 +107,38 @@ export default {
          method:"get",
          params:{
            category:categoryId,//传的id
+           pageSize: this.pageSize, 
+           pageIndex: this.tabCategoryList[tabIndex].currentPage  
          }
        }).then(res=>{ //通过栏目id
           const {data}=res.data;
           console.log(data);
           //获取文章列表数据后,一个传入 tabIndex对应的tab对象当中
-          this.tabCategoryList[tabIndex].posts=data;
+          // this.tabCategoryList[tabIndex].posts=data;//一次直接获取过来的给posts空数组
+           
+           // 获取完了对应的文章列表数据,放进传入tabIndex对应tab对象当中,不能直接覆盖数据-需要拼接
+           const newData=[...this.tabCategoryList[tabIndex].posts,...data];
+           //1.👆上面的解构写法,将this.tabCategoryList[tabIndex].posts里面的每一个数据都放入一个新数组
+          // 2.👆然后将data的每一个元素也继续放入这个数组当中,然后返回包含两个数组所有元素的一个新数组,达到拼接两个数组数据的目的。
+          this.tabCategoryList[tabIndex].posts=newData;
+          //数据获取完毕了，要手动将读取状态 this.loading设置为false;可以（隐藏加载中的几个字）
+          this.loading=false;
+          //如果新获取的data数据长度，少于我们设置的每页数据大小,说明已经翻到最后一页了，
+           if(data.length < this.pageSize){  //后台数据长度 < 这个条数
+             //把当前的tab的finished属性修改为true,避免下次继续触发加载函数
+             this.tabCategoryList[this.activeTab].finished=true;
+
+           }
+
+
+          // 下面这种写法也能达到效果
+          // var newData=[];
+          // this.tabCategoryList[tabIndex].posts.forEach(element=>{
+          //   newData.push(element)
+          // });
+          // data.forEach(element=>{
+          //   newData.push(element)
+          // });
        })
      }
      
