@@ -1,13 +1,18 @@
 <template>
-  <postDetailHeader/>
+  <div>
+    <postDetailHeader/>
 
+   <postDetailFooter/>
+  </div>
 </template>
 
 <script>
 import postDetailHeader from '../components/postDetailHeader.vue';
+import postDetailFooter from '../components/postDeatilFooter.vue';
 export default {
   components:{
-    postDetailHeader
+    postDetailHeader,
+    postDetailFooter
   },
      data(){
        return{
