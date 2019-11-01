@@ -2,21 +2,29 @@
   <div>
     <postDetailHeader />
     <div class="mellice">
-      <h2>车主注意啦,哈狗一回国一啊哈哈够吃几哈阿后方拍黄瓜</h2>
+      <h2>{{post.title}}</h2>
       <div class="card">
-        <div class="nick">火星时报</div>
-        <div class="tiem">2019-10-10</div>
+        <div class="nick" v-if="post.user">
+          {{post.user.nickname}}  2019-10-23
+          </div>
       </div>
-      <div class="conent">低价股很反感好多个以安徽鬼爱过后2年代胡歌佛庵121伙伴加工费哈嘿爱过后阿惠伟蛤ugh2发UI更换还闬4能打覅回归4回复大家观看发布</div>
+      <!-- 内容不是视频 -->
+      <div class="content" v-html="post.content" v-if="post.type!=2"></div>
+
       <div class="btn">
+
         <div class="left">
           <span class="iconfont icondianzan"></span>
           <span class="like">112</span>
         </div>
-        <div class="right">
+
+        <div class="wechat">
           <span class="iconfont iconweixin"></span>
-          <span>微信</span>
+          <a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Explanation_of_interface_privileges.html">
+          微信
+          </a>
         </div>
+
       </div>
     </div>
 
@@ -35,8 +43,19 @@
     data() {
       return {
         //得到主页的动态 路由
-        postId: this.$route.params.id
-      };
+        postId: this.$route.params.id,
+        post:{}
+      }
+    },
+    mounted(){
+      this.$axios({
+        url:"/post/"+this.postId,
+        method:'get'
+      }).then(res=>{
+        console.log('文章详情',res.data)
+        const {data}=res.data;
+        this.post=data;
+      })
     }
   };
 </script>
@@ -50,6 +69,12 @@
       -webkit-line-clamp: 2;
       overflow: hidden;
     }
+    .content{
+      /deep/ img {
+        max-width: 100%;
+        padding: 5px 0;
+    }
+    }
     .card {
       display: flex;
       padding: 2.778vw 0 5.556vw 0;
@@ -59,6 +84,7 @@
       }
     }
     .btn{
+      margin-bottom: 13.889vw;
       display: flex;
       justify-content: space-evenly;
       padding-top:11.111vw;
@@ -74,7 +100,7 @@
          font-size: 4.444vw;
         }
       }
-      .right{
+      .wechat{
         width: 20.833vw;
         border: 1px solid #888;
         height: 8.333vw;
