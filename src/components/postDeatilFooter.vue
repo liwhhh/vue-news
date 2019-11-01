@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
      
-     <div class="unActive" v-if="isShow">
-       <input type="text" class="text" placeholder="写跟帖">
+     <div class="unActive" v-if="!isFocus">
+       <input type="text" class="text" placeholder="写跟帖" @focus="showArea">
        <div class="people">
          <div class="iconfont iconpinglun-"></div>
          <div class="number">1020</div>
@@ -11,8 +11,10 @@
        <div class="iconfont iconfenxiang"></div>
      </div>
 
-     <div class="Active" v-if="!isShow">
-       <textarea class="textarea" name="" id="" cols="30" rows="10"></textarea>
+     <div class="Active" v-if="isFocus">
+       <textarea class="textarea" name="" id="" cols="30" rows="10"
+        @blur="isFocus=false"
+        ref="commentArea"></textarea>
        <div class="forward">发送</div>
      </div>
 
@@ -23,8 +25,18 @@
 export default {
     data(){
       return{
-        isShow:true
+        isFocus:false
       }
+    },
+    methods:{
+      showArea(){
+        this.isFocus=true;
+        this.$nextTick(()=>{
+          this.$refs.commentArea.focus();
+        })
+      }
+
+      
     }
 }
 </script>
