@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import sonInput from '../components/sonInput.vue';
-import sonBtn from '../components/sonBtn.vue';
+import sonInput from './components/sonInput.vue';
+import sonBtn from './components/sonBtn.vue';
 export default {
   components:{
     sonInput:sonInput,

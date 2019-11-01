@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import sonInput from '../components/sonInput';
-import sonBtn from '../components/sonBtn';
+import sonInput from './components/sonInput';
+import sonBtn from './components/sonBtn';
 export default {
    components:{
      sonInput:sonInput,
