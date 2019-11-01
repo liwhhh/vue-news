@@ -7,7 +7,7 @@
          <div class="iconfont iconpinglun-"></div>
          <div class="number">1020</div>
        </div>
-       <div class="iconfont iconshoucang"></div>
+       <div :class="{red:post.has_star}" class="iconfont iconshoucang" @click="star"></div>
        <div class="iconfont iconfenxiang"></div>
      </div>
 
@@ -23,16 +23,32 @@
 
 <script>
 export default {
+  props:['post'],
     data(){
       return{
         isFocus:false
       }
     },
     methods:{
-      showArea(){
+      showArea(){//实现框框转换
         this.isFocus=true;
         this.$nextTick(()=>{
           this.$refs.commentArea.focus();
+        })
+      },
+      star(){//点收藏
+        this.$axios({
+          url:"/post_star/"+this.post.id,
+          method:'get'
+        }).then(res=>{
+          console.log('收藏',res.data)
+          const {message}=res.data;
+          if(message=='收藏成功'){
+            this.post.has_star=true;
+            
+          }else{
+            this.post.has_star=false;
+          }
         })
       }
 
@@ -110,4 +126,7 @@ export default {
    }
 }
   
+  .red{
+    color: red;
+  }
 </style>

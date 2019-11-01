@@ -22,7 +22,7 @@
 
       <div class="btn">
         <div class="left" @click="like">
-          <span class="iconfont icondianzan"></span>
+          <span class="iconfont icondianzan" :class="{red:post.has_like}"></span>
           <span class="like">
             {{post.like_length}}
           </span>
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <postDetailFooter />
+    <postDetailFooter :post="post" />
   </div>
 </template>
 
@@ -144,5 +144,8 @@
         }
       }
     }
+  }
+  .red{
+    color: red;
   }
 </style>
