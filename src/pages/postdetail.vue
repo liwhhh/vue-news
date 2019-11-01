@@ -11,13 +11,20 @@
       <!-- 内容不是视频 -->
       <div class="content" v-html="post.content" v-if="post.type!=2"></div>
 
-      <div class="btn">
+      <!-- 是视频 -->
+      <video class="video" 
+      controls="controls"
+      :poster="post.cover[0].url"
+      src="https://video.pearvideo.com/mp4/adshort/20191031/cont-1617802-14542116_adpkg-ad_hd.mp4" 
+      v-if="post.type==2"
+      > 
+      </video>
 
+      <div class="btn">
         <div class="left">
           <span class="iconfont icondianzan"></span>
           <span class="like">112</span>
         </div>
-
         <div class="wechat">
           <span class="iconfont iconweixin"></span>
           <a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Explanation_of_interface_privileges.html">
@@ -73,8 +80,11 @@
       /deep/ img {
         max-width: 100%;
         padding: 5px 0;
+       }
     }
-    }
+     .video{
+       width: 100%;
+     }
     .card {
       display: flex;
       padding: 2.778vw 0 5.556vw 0;
