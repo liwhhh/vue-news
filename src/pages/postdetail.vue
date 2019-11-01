@@ -4,7 +4,13 @@
 
 <script>
 export default {
+     data(){
+       return{
+         //得到主页的动态 路由 
+         postId:this.$route.params.id,
 
+       }
+     }
 }
 </script>
 

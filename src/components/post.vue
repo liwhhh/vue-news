@@ -3,8 +3,8 @@
      
       <!-- 添加一个视频的模板 -->
         <div class="videoPost" v-if="item.type == 2">
-            <div class="title">{{item.title}}</div>
-            <div class="cover">
+            <div class="title" @click="toDetail">{{item.title}}</div>
+            <div class="cover" @click="toDetail">
                 <img :src="item.cover[0].url" alt="" class="coverImg">
                 <div class="btnWrapper">
                     <div class="iconfont iconshipin"></div>
@@ -17,17 +17,17 @@
 
     <!-- 1~2张会显示 -->
     <div class="singleIngPost" v-else-if="item.cover.length > 0 && item.cover.length < 3">
-      <div class="left">
+      <div class="left" @click="toDetail">
         <div class="title">{{item.title}}</div>
         <div class="info">{{item.user.nickname}} {{item.comment_length}}跟帖</div>
       </div>
-      <img :src="item.cover[0].url" alt class="imgRight" />
+      <img :src="item.cover[0].url" alt class="imgRight" @click="toDetail"/>
     </div>
 
     <!-- 3张图片的话 -->
     <div class="multipImgPost" v-else-if="item.cover.length >= 3">
-      <div class="title">{{item.title}}</div>
-      <div class="meilles">
+      <div class="title" @click="toDetail">{{item.title}}</div>
+      <div class="meilles" @click="toDetail">
         <img :src="item.cover[0].url" alt class="coverImg" />
         <img :src="item.cover[1].url" alt class="coverImg" />
         <img :src="item.cover[2].url" alt class="coverImg" />
@@ -39,7 +39,19 @@
 
 <script>
   export default {
-    props: ["item"]
+    props: ["item"],
+    methods:{
+      toDetail(){
+        this.$router.push({
+          name:'postdetailPage',
+          // 我想带上一个动态路由参数叫做id
+          // this.$route.params
+          params:{
+            id:this.item.id
+          }
+        })
+      }
+    }
   };
 </script>
 

@@ -55,7 +55,7 @@ export default new Router({
       component: Mycollections
     },
     {
-      path: '/postdetail',//新闻详情页/ajax的文章详情
+      path: '/postdetail/:id',//新闻详情页/ajax的文章详情
       name: 'postdetailPage',
       component: Postdetail
     },
