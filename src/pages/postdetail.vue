@@ -21,9 +21,11 @@
       </video>
 
       <div class="btn">
-        <div class="left">
+        <div class="left" @click="like">
           <span class="iconfont icondianzan"></span>
-          <span class="like">112</span>
+          <span class="like">
+            {{post.like_length}}
+          </span>
         </div>
         <div class="wechat">
           <span class="iconfont iconweixin"></span>
@@ -63,6 +65,24 @@
         const {data}=res.data;
         this.post=data;
       })
+    },
+    methods:{
+      like(){//点赞
+        this.$axios({
+          url:"/post_like/"+this.post.user.id,
+          method:'get'
+        }).then(res=>{
+          console.log('点赞',res.data)
+          const {message} =res.data;
+          if(message== '点赞成功'){
+            this.post.has_like=true;
+            this.post.like_length+=1;
+          }else{ //取消成功
+            this.post.has_like=false;
+            this.post.like_length-=1;
+          }
+        })
+      }
     }
   };
 </script>
