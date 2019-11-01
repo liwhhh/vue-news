@@ -1,84 +1,79 @@
 <template>
   <div class="wrapper">
-
-    <div class="follow" v-if="!isShow">
-      <div class="left" >
-        <span class="iconfont iconjiantou2"></span>
-        <span class="iconfont iconnew"></span>
-      </div>
-      <div class="right">关注</div>
-    </div>
-
-    <div class="unfollow"  v-if="isShow">
-      <div class="left">
-        <span class="iconfont iconjiantou2"></span>
-        <span class="iconfont iconnew"></span>
-      </div>
-      <div class="right">已关注</div>
-    </div>
-
-
+        <div class="left">
+          <span class="iconfont iconjiantou2"></span>
+          <span class="iconfont iconnew"></span>
+        </div>
+       <div class="follow" v-if="!post.has_follow" @click="follow">关注</div>
+      <div class="unfollow" v-else-if="post.has_follow" @click="unfollow">已关注</div>
   </div>
 </template>
 
 <script>
   export default {
+    props:['post'],
     data() {
       return {
-        isShow: true
-      };
+        
+      }
+    },
+    methods:{
+      follow(){
+         this.$axios({
+           url:"/user_follows/"+this.post.user.id, //通过用户id关注
+           method:'get'
+         }).then(res=>{
+           const {message}=res.data;
+           console.log('关注',message)
+           if(message == '关注成功'){
+             this.post.has_follow=true;
+           }
+         })
+      },
+      unfollow(){//点击取消关注
+        this.$axios({
+          url:'/user_unfollow/'+this.post.user.id,
+          method:'get'
+        }).then(res=>{
+          console.log('取消',res.data)
+          const {message}=res.data;
+          if(message == '取消关注成功'){
+            this.post.has_follow=false;
+          }
+        })
+
+      }
     }
   };
 </script>
 
 <style lang="less" scoped>
-  .unfollow {
-    padding: 2.778vw;
+  .wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .left {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .iconnew {
-        font-size: 12.5vw;
-        padding-left: 1.667vw;
-      }
-    }
-    .right {
-      width: 17.222vw;
-      font-size: 13px;
-      text-align: center;
-      padding: 5px 0;
-      border-radius: 13px;
-      border: 0.278vw solid #888;
-      color: #333;
-    }
-  }
-  .follow {
     padding: 2.778vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .left {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .iconnew {
+    .left{
+       display: flex;
+       justify-content: center;
+       align-items: center;
+      .iconnew{
         font-size: 12.5vw;
-        padding-left: 1.667vw;
       }
     }
-    .right {
-      width: 17.222vw;
-      font-size: 13px;
-      text-align: center;
-      padding: 5px 0;
-      border-radius: 4.167vw;
-      background-color: red;
-      border: 0.278vw solid red;
-      color: #fff;
+    .follow{
+      padding: 4px 10px;
+      color: white;
+      background: red;
+      border-radius: 14px;
+      }
+    .unfollow{
+      padding: 4px 10px;
+      border: 1px solid #888;
+      border-radius: 15px;
+
     }
   }
+    
+
 </style>
