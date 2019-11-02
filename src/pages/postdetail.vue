@@ -33,10 +33,18 @@
           微信
           </a>
         </div>
-
       </div>
     </div>
+    <div class="comments">
+      <div class="title">精彩跟帖</div>
+      <div class="empty" v-if="comments.length == 0" >
+         暂无跟帖,抢占沙发
+      </div>
+      <comment :commentItem="item" v-for="(item,index) in comments" :key="index">
+          
+      </comment>
 
+    </div>
     <postDetailFooter :post="post" />
   </div>
 </template>
@@ -44,20 +52,23 @@
 <script>
   import postDetailHeader from "../components/postDetailHeader.vue";
   import postDetailFooter from "../components/postDeatilFooter.vue";
+  import comment from '../components/comment.vue';
   export default {
     components: {
       postDetailHeader,
-      postDetailFooter
+      postDetailFooter,
+      comment
     },
     data() {
       return {
         //得到主页的动态 路由
         postId: this.$route.params.id,
-        post:{}
+        post:{},
+        comments:[]
       }
     },
     mounted(){
-      this.$axios({
+      this.$axios({ //获取文章详情
         url:"/post/"+this.postId,
         method:'get'
       }).then(res=>{
@@ -65,8 +76,22 @@
         const {data}=res.data;
         this.post=data;
       })
+
+      //获取跟帖 后台评论列表
+      this.getComments()
     },
     methods:{
+      getComments(){//获取跟帖列表
+         this.$axios({
+           url:"/post_comment/"+this.postId,//通过主页的路由
+           method:'get'
+         }).then(res=>{
+           console.log('跟帖列表',res.data)
+           const {data}=res.data;
+           this.comments=data;
+         })
+
+      },
       like(){//点赞
         this.$axios({
           url:"/post_like/"+this.post.user.id,
@@ -114,7 +139,6 @@
       }
     }
     .btn{
-      margin-bottom: 13.889vw;
       display: flex;
       justify-content: space-evenly;
       padding-top:11.111vw;
@@ -148,4 +172,41 @@
   .red{
     color: red;
   }
+
+  .comments{
+    margin-top:8.333vw;
+    border-top: 5px solid #eee;
+    padding: 2.778vw;
+    .title{
+      width: 100%;
+      height: 8.333vw;
+      text-align: center;
+      padding-top: 8.333vw;
+      font-size: 5.556vw;
+    }
+    .empty{
+      width: 100%;
+      text-align: center;
+      height: 30px;
+      padding: 40px 0;
+    }
+    
+    .btnMoreComments{
+      width: 32.5vw;
+      height: 8.333vw;
+      line-height: 8.333vw;
+      text-align: center;
+      margin-left: 30.333vw;
+      border:1px solid #888;
+      border-radius: 4.167vw;
+      margin-bottom: 16.667vw;
+    }
+  }
+ .comment{
+   width: 100%;
+   height: 20vh;
+   border-bottom:1px solid #eee;
+
+ }
+
 </style>
