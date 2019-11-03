@@ -5,7 +5,7 @@
        <input type="text" class="text" placeholder="写跟帖" @focus="showArea">
        <div class="people">
          <div class="iconfont iconpinglun-"></div>
-         <div class="number">1020</div>
+         <div class="number">{{post.comment_length}}</div>
        </div>
        <div :class="{red:post.has_star}" class="iconfont iconshoucang" @click="star"></div>
        <div class="iconfont iconfenxiang"></div>
