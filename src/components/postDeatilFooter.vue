@@ -59,8 +59,7 @@ export default {
 
 
 <style lang="less" scoped>
-.wrapper{
-  }
+
 .unActive{
   background:white;
   position: fixed;

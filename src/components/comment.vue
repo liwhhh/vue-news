@@ -1,13 +1,17 @@
 <template>
     <div class="commentWarpper">
       <div class="meta">
-        <img class="avatar" src="/static/images/hu.png" alt="">
+        <img class="avatar" :src="$axios.defaults.baseURL +commentItem.user.head_img" alt="">
         <div class="info">
-         <div class="name">或取消函数</div>
+         <div class="name">{{commentItem.user.nickname}}</div>
          <div class="tiem">2小时前</div>
         </div>
         <div class="btnReply">回复</div>
       </div>
+      <!-- 楼层组件 -->
+      <!-- 如果有parent楼层组件.就把parent组件传给楼层组件 -->
+      <commentFloor v-if="commentItem.parent" 
+      :floorItem="commentItem.parent"></commentFloor>
         <div class="commentContent">
         {{commentItem.content}}
         </div>
@@ -16,9 +20,11 @@
 
 <script>
 import headerEdit from '../components/headerEdit';
+import commentFloor from '../components/commentFloor';
 export default {
   components:{
-    headerEdit
+    headerEdit,
+    commentFloor //楼层组件
   },
    props:['commentItem']
 }
