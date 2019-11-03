@@ -76,13 +76,16 @@
       this.getComments();
     },
     methods: {
-      getComments() {
+      getComments() {//文章详情里的跟帖列表
         //获取跟帖列表
         this.$axios({
           url: "/post_comment/" + this.postId, //通过主页的路由
+          params:{
+             pageSize:3
+          },
           method: "get"
         }).then(res => {
-          console.log("跟帖列表", res.data);
+          console.log("postdetail的跟帖列表", res.data);
           const { data } = res.data;
           this.comments = data;
         });

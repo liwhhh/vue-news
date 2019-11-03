@@ -19,11 +19,9 @@
 </template>
 
 <script>
-import headerEdit from '../components/headerEdit';
 import commentFloor from '../components/commentFloor';
 export default {
   components:{
-    headerEdit,
     commentFloor //楼层组件
   },
    props:['commentItem']
@@ -34,7 +32,7 @@ export default {
 
 .commentWarpper{
   border-bottom: 1px solid #eee;
-  padding: 20px 10px;
+  padding: 30px 20px;
   .meta{
     display: flex;
     justify-content: space-between;
