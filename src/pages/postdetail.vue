@@ -37,7 +37,7 @@
       <div class="comment" v-else >
         <comment :commentItem="item" v-for="(item,index) in comments" :key="index"></comment>
       </div>
-      <div class="btnMoreComments">更多跟帖</div>
+      <div class="btnMoreComments" @click="toMoreComents">更多跟帖</div>
     </div>
     <postDetailFooter :post="post" />
   </div>
@@ -76,6 +76,15 @@
       this.getComments();
     },
     methods: {
+      toMoreComents(){
+       //1.点击更多跟帖时
+       this.$router.push({
+         name:'moreCommentsPage',
+         params:{ //get方式得到当前页路由的id
+           id:this.postId
+         }
+       })
+      },
       getComments() {//文章详情里的跟帖列表
         //获取跟帖列表
         this.$axios({

@@ -10,6 +10,7 @@ import Myfollows from '@/pages/myfollows.vue';//我的关注页
 import Mycomments from '@/pages/mycomments.vue';//我的跟帖页
 import Mycollections from '@/pages/mycollections.vue';//我的收藏页
 import Postdetail from '@/pages/postdetail.vue';//新闻详情/文章详情页
+import MoreComments from '@/pages/morecomments.vue';//新闻详情/文章详情页
 Vue.use(Router)
 
 export default new Router({
@@ -58,6 +59,11 @@ export default new Router({
       path: '/postdetail/:id',//新闻详情页/ajax的文章详情
       name: 'postdetailPage',
       component: Postdetail
+    },
+    {
+      path: '/morecomments/:id',//文章详情的点击跳转到<更多跟帖页>
+      name: 'moreCommentsPage',
+      component: MoreComments
     },
   ]
 })
