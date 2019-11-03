@@ -1,6 +1,6 @@
 <template>
   <div>
-    <postDetailHeader :post="post" />
+    <postDetailHeader :post="post" @sendpro="$router.back()" />
     <div class="mellice">
       <h2>{{post.title}}</h2>
       <div class="card">

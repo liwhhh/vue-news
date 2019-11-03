@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-        <div class="left">
+        <div class="left" @click="sendPro">
           <span class="iconfont iconjiantou2"></span>
           <span class="iconfont iconnew"></span>
         </div>
@@ -18,6 +18,9 @@
       }
     },
     methods:{
+      sendPro(){
+        this.$emit('sendpro')
+      },
       follow(){
          this.$axios({
            url:"/user_follows/"+this.post.user.id, //通过用户id关注
