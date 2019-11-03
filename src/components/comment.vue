@@ -11,7 +11,8 @@
       <!-- 楼层组件 -->
       <!-- 如果有parent楼层组件.就把parent组件传给楼层组件 -->
       <commentFloor v-if="commentItem.parent" 
-      :floorItem="commentItem.parent"></commentFloor>
+      :floorItem="commentItem.parent"
+      :parentLength="parentLength"></commentFloor>
         <div class="commentContent">
         {{commentItem.content}}
         </div>
@@ -24,7 +25,23 @@ export default {
   components:{
     commentFloor //楼层组件
   },
-   props:['commentItem']
+   props:['commentItem'],
+  //  1.统计出一个回帖所有的 parent 深度 ,2.传给递归里层自己调用自己
+   data(){
+     return{
+       parentLength:this.countParnet(0,this.commentItem)
+     }
+   },
+   methods:{
+     countParnet(num,obj){
+       if(obj.parent){
+         return this.countParnet(num+1,obj.parent);
+       }else{
+         console.log(num)
+         return num;
+       }
+     }
+   }
 }
 </script>
 

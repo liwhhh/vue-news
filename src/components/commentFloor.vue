@@ -1,10 +1,11 @@
 <template>
   <div class="warpper"> 
-    <abx v-if="floorItem.parent" :floorItem="floorItem.parent"></abx>
+    <abx v-if="floorItem.parent" :floorItem="floorItem.parent"
+    :parentLength="parentLength-1"></abx>
     <div class="floorWrapper">
        <div class="meta">
           <div class="info">
-            {{floorItem.user.nickname}}
+          {{parentLength}} : {{floorItem.user.nickname}}
             <span class="time">2小时前</span>
           </div>
           <div class="btnReply">回复</div>
@@ -20,7 +21,7 @@
 export default {
   name:'abx',
     props:[
-      'floorItem'
+      'floorItem','parentLength'
     ]
 }
 </script>

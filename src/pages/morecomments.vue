@@ -5,6 +5,7 @@
       :commentItem="item"
       v-for="(item,index) in commentList" :key="index"
     ></comment>
+    <div class="footer">我也是有底线的</div>
   </div>
 </template>
 
@@ -38,6 +39,12 @@ export default {
 
 
 <style lang="less" scoped>
-
+ .footer{
+   width: 100%;
+   height: 20.222vw;
+   margin-top:10px;
+   text-align: center;
+   color: rgb(172, 170, 170);
+ }
 
 </style>
