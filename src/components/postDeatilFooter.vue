@@ -59,7 +59,10 @@ export default {
 
 
 <style lang="less" scoped>
+.wrapper{
+  }
 .unActive{
+  background:white;
   position: fixed;
   width: 100%;
   bottom: 0;
@@ -99,7 +102,8 @@ export default {
 }
 
 .Active{
-   position: fixed;
+  position: fixed;
+  background:white;
    width: 100%;
    bottom: 0;
    display: flex;
